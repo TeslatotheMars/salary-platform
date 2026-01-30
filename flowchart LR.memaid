@@ -1,0 +1,49 @@
+    %% ========== Client ==========
+    subgraph Client["Client (Browser)"]
+        G[Guest User]
+        U[Registered User]
+        A[Admin]
+    end
+
+    %% ========== Frontend ==========
+    subgraph FE["Frontend (React + Vite)"]
+        UI[UI Pages<br/>Dashboard / Compare<br/>Login / Register<br/>My Submissions<br/>Admin Console]
+        State[State & Data Fetch<br/>TanStack Query]
+        Charts[Charts<br/>Recharts]
+    end
+
+    %% ========== Backend ==========
+    subgraph BE["Backend (Django + DRF)"]
+        API[REST API Layer]
+        Auth[Authentication & RBAC<br/>JWT / Roles]
+        Dash[Dashboard Service<br/>Summary / Grouped / Distribution / Compare]
+        Submit[Submission Service<br/>2 submissions per year rule]
+        AdminSvc[Admin Import Service<br/>CSV Import / Delete]
+        Privacy[Privacy Guard<br/>k-anonymity (k = 5)]
+    end
+
+    %% ========== Data Layer ==========
+    subgraph DATA["Data Layer"]
+        DB[(SQLite / PostgreSQL)]
+        Cache[(Redis<br/>(optional))]
+    end
+
+    %% ========== Connections ==========
+    G --> UI
+    U --> UI
+    A --> UI
+
+    UI --> State --> API
+    Charts --> UI
+
+    API --> Auth
+    API --> Dash
+    API --> Submit
+    API --> AdminSvc
+
+    Dash --> Privacy
+    Dash --> DB
+    Dash --> Cache
+
+    Submit --> DB
+    AdminSvc --> DB
