@@ -1,0 +1,46 @@
+    %% ========== Roles ==========
+    subgraph Roles["User Roles"]
+        Guest[Guest]
+        User[Registered User]
+        Admin[Admin]
+    end
+
+    %% ========== Dashboard ==========
+    subgraph Dashboard["Salary Dashboard"]
+        Explore[Explore Mode<br/>Filters + KPIs + Charts]
+        Compare[Compare Mode<br/>Group A vs Group B]
+        Suppress[k-anonymity<br/>k = 5]
+    end
+
+    %% ========== User Features ==========
+    subgraph UserFunc["User Features"]
+        Register[Register / Login]
+        Submit[Submit Salary Record<br/>(Web Form)]
+        Limit[Annual Limit<br/>≤ 2 records per year]
+        MyData[My Submissions<br/>View / Delete]
+    end
+
+    %% ========== Admin Features ==========
+    subgraph AdminFunc["Admin Features"]
+        Import[CSV Bulk Import]
+        Batch[Import Batch Management]
+        Delete[Delete Record or Batch]
+    end
+
+    %% ========== Relationships ==========
+    Guest --> Explore
+    Guest --> Compare
+
+    User --> Register
+    User --> Submit --> Limit
+    User --> MyData
+    User --> Explore
+    User --> Compare
+
+    Admin --> Import --> Batch
+    Admin --> Delete
+    Admin --> Explore
+    Admin --> Compare
+
+    Explore --> Suppress
+    Compare --> Suppress
